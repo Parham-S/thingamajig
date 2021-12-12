@@ -1,0 +1,92 @@
+process.env.NODE_ENV = 'test';
+const request = require('supertest');
+const db = require('./../db/connection');
+const app = require('../index');
+const matchers = require('jest-extended');
+
+describe('user', () => {
+  beforeAll(() => {
+    expect.extend(matchers);
+  });
+
+  afterAll(() => {
+    db.destroy();
+  });
+
+  describe('signup', () => {
+    it('signs up a new user', async () => {
+      const res = await request(app)
+        .post('/api/v1/users/signup')
+        .send({
+          user_name: 'user01',
+          email: 'testing@gmail.com',
+          password: 'testing123',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(201);
+
+      const { user, token } = res.body;
+      expect(user).toBeObject();
+      expect(user).toContainKeys(['id', 'user_name', 'email']);
+      expect(token).toBeString();
+    });
+  });
+
+  describe('signin', () => {
+    let res;
+
+    const loginUser = async () =>
+      await request(app)
+        .post('/api/v1/users/signin')
+        .send({
+          user_name: 'user01',
+          password: 'testing123',
+        })
+        .set('Accept', 'application/json');
+
+    it('/users/signup returns 400 w/ bad pw', async () => {
+      await request(app)
+        .post('/api/v1/users/signin')
+        .send({
+          user_name: 'user01',
+          password: 'NOPE',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400);
+    });
+
+    it('/users/current returns 403 on no auth', async () => {
+      await request(app).get('/api/v1/users/current').expect(403);
+    });
+
+    beforeEach(async () => {
+      res = await loginUser();
+    });
+
+    it('/users/signin returns 200 on good credentials', () => {
+      expect(res.headers['content-type']).toEqual(
+        expect.stringContaining('json')
+      );
+      expect(res.statusCode).toBe(200);
+
+      const { user, token } = res.body;
+      expect(user).toContainKeys(['id', 'user_name', 'email']);
+      expect(user).not.toContainKeys(['password', 'password_hash']);
+      expect(token).toBeString();
+    });
+
+    it('/users/current returns 200 with auth', async () => {
+      const { user, token } = res.body;
+      res = await request(app)
+        .get('/api/v1/users/current')
+        .set('Authorization', 'Bearer ' + token)
+        .expect(200);
+      expect(res?.body).toContainKeys(['id', 'user_name', 'email']);
+      expect(res?.body).not.toContainKeys(['password', 'password_hash']);
+      expect(res.body.id).toEqual(user.id);
+      expect(res.body.email).toEqual(user.email);
+    });
+  });
+});
