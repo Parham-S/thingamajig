@@ -1,17 +1,17 @@
-import React, { useState, useContext } from 'react';
-import Input from '../components/Input';
-import { Link } from 'react-router-dom';
-import { UserContext } from '../contexts/UserContext';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
+
+import Input from '../components/Input';
+import { useAuth } from '../hooks/useAuth';
+import authService from '../services/authService';
 
 const Signup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(null);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
-  // not a typo: we're just not using currentUser in this file
-  const [currentUser, setCurrentUser] = useContext(UserContext);
+  const { setCurrentUser } = useAuth();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,9 +20,8 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/v1/users/signup', formData);
-      sessionStorage.setItem('token', res.data.token);
-      setCurrentUser(res.data.user);
+      const { user } = await authService.signup(formData);
+      setCurrentUser(user);
       navigate('/', { replace: true });
       e.target.reset();
     } catch (err) {

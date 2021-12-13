@@ -1,5 +1,5 @@
-import React, { useState, useEffect, createContext } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, createContext, useContext } from 'react';
+import authService from '../services/authService';
 
 export const UserContext = createContext();
 
@@ -7,17 +7,15 @@ export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(async () => {
-    const token = sessionStorage.getItem('token');
-    if (token) {
-      const headers = { Authorization: `Bearer ${token}` };
-      const res = await axios.get('/api/v1/users/current', { headers });
-      setCurrentUser(res.data);
-    }
+    const user = await authService.getCurrentUser();
+    setCurrentUser(user);
   }, []);
 
   return (
-    <UserContext.Provider value={[currentUser, setCurrentUser]}>
+    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
       {children}
     </UserContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(UserContext);

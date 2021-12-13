@@ -1,7 +1,9 @@
-import React, { useEffect, useContext, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router';
-import { UserContext } from '../contexts/UserContext';
 import { Navigate } from 'react-router-dom';
+
+import authService from '../services/authService';
+import { useAuth } from '../hooks/useAuth';
 
 function useQuery() {
   const { search } = useLocation();
@@ -9,11 +11,11 @@ function useQuery() {
 }
 
 const TokenConfirm = () => {
-  const [currentUser, setCurrentUser] = useContext(UserContext);
+  const { setCurrentUser } = useAuth();
   const query = useQuery();
   useEffect(() => {
     const token = query.get('token');
-    sessionStorage.setItem('token', token);
+    authService.setToken(token);
     setCurrentUser(null);
   }, []);
   return <Navigate to="/" />;

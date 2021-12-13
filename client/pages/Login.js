@@ -1,9 +1,8 @@
-import React, { useState, useContext } from 'react';
-import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { UserContext } from '../contexts/UserContext';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
+import authService from '../services/authService';
+import { useAuth } from '../hooks/useAuth';
 import Input from '../components/Input';
 
 const Login = () => {
@@ -11,7 +10,7 @@ const Login = () => {
   const location = useLocation();
   const [formData, setFormData] = useState(null);
   const [isError, setError] = useState(false);
-  const [currentUser, setCurrentUser] = useContext(UserContext);
+  const { setCurrentUser } = useAuth();
 
   const from = location.state?.from?.pathname || '/';
   const githubLogin = (e) => {
@@ -32,9 +31,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/v1/users/signin', formData);
-      sessionStorage.setItem('token', res.data.token);
-      setCurrentUser(res.data.user);
+      const { user } = await authService.login(formData);
+      setCurrentUser(user);
       navigate(from, { replace: true });
     } catch (err) {
       console.log(err);

@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../contexts/UserContext';
+import { useAuth } from '../hooks/useAuth';
 
 /**
  * The navbar gets should display, no matter if the user is logged in or out.
@@ -8,7 +8,7 @@ import { UserContext } from '../contexts/UserContext';
  *  - if the user isn't logged in, give a generic message with instructions.
  */
 const Nav = () => {
-  const [currentUser, setCurrentUser] = useContext(UserContext);
+  const { currentUser } = useAuth();
 
   return (
     <div className="navbar">

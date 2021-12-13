@@ -1,11 +1,13 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { UserContext } from '../contexts/UserContext';
+
+import { useAuth } from '../hooks/useAuth';
+import authService from '../services/authService';
 
 const Logout = () => {
-  const [currentUser, setCurrentUser] = useContext(UserContext);
+  const { setCurrentUser } = useAuth();
   useEffect(() => {
-    sessionStorage.removeItem('token');
+    authService.logout();
     setCurrentUser(null);
   }, []);
   return <Navigate to="/" />;

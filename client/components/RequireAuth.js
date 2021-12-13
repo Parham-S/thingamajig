@@ -1,10 +1,9 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-
-const getAuth = () => sessionStorage.getItem('token');
+import authService from '../services/authService';
 
 const RequireAuth = ({ children, redirectTo }) => {
-  let isAuthenticated = getAuth();
+  let isAuthenticated = authService.getToken();
   return isAuthenticated ? children : <Navigate to={redirectTo} />;
 };
 
