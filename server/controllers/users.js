@@ -24,12 +24,13 @@ async function signUpUser(req, res, next) {
 
 async function signInUser(req, res, next) {
   try {
+    // any validation should go here
     const { user_name, password } = req.body;
     const user = await User.findOne({ user_name });
     const isMatch = await bcrypt.compare(password, user.password_hash);
 
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials.' });
+      throw new ErrorHandler(400, 'Invalid credentials');
     }
 
     // Don't give the password, even if it's hashed!
