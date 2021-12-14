@@ -39,6 +39,7 @@ module.exports = {
   },
   devServer: {
     port: 3000,
+    host: '0.0.0.0', // needed for docker?
     open: true,
     historyApiFallback: true,
     proxy: {

@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  fullstack-js:
+    image: fullstack-app
+    depends_on:
+      - mysql-docker
+    environment:
+      - NODE_ENV=development
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PW=${DB_PW}
+    build: .
+    ports:
+      - 3000:3000
+    command: yarn dev
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+  mysql-docker:
+    image: mysql:8.0.27
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always    
+    environment:      
+      MYSQL_DATABASE: 'sample_fullstack_hooks_asyncawait'
+      MYSQL_USER: 'user'     
+      MYSQL_PASSWORD: 'november17'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports: 
+      # <Port exposed> : < MySQL Port running inside container>
+      # in other words, gotta call it 3308 cuz I have 3306 on my machine :(
+      - 3308:3306
+    expose:  
+      # Opens port 3308 on the container
+      - 3308 
+    # Where our data will be persisted
+    volumes:
+      - db_data:/var/lib/mysql # Names our volume     
+volumes:
+  db_data:
