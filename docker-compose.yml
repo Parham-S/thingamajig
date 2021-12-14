@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  fullstack-js:
-    image: fullstack-app
+  web:
+    container_name: fullstack-app
     depends_on:
       - mysql-docker
     environment:
@@ -17,13 +17,14 @@ services:
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
+
   mysql-docker:
     image: mysql:8.0.27
     command: --default-authentication-plugin=mysql_native_password
-    restart: always    
-    environment:      
+    restart: always
+    environment:
       MYSQL_DATABASE: 'sample_fullstack_hooks_asyncawait'
-      MYSQL_USER: 'user'     
+      MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'november17'
       MYSQL_ROOT_PASSWORD: 'password'
     ports: 
