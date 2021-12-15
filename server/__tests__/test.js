@@ -13,6 +13,14 @@ describe('user', () => {
     db.destroy();
   });
 
+  const VALID_USER_RESPONSE_FIELDS = [
+    'id',
+    'user_name',
+    'email',
+    'first_name',
+    'last_name',
+  ];
+
   describe('signup', () => {
     it('signs up a new user', async () => {
       const res = await request(app)
@@ -21,6 +29,8 @@ describe('user', () => {
           user_name: 'user01',
           email: 'testing@gmail.com',
           password: 'testing123',
+          first_name: 'Joe',
+          last_name: 'Smith',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -28,7 +38,7 @@ describe('user', () => {
 
       const { user, token } = res.body;
       expect(user).toBeObject();
-      expect(user).toContainKeys(['id', 'user_name', 'email']);
+      expect(user).toContainKeys(VALID_USER_RESPONSE_FIELDS);
       expect(token).toBeString();
     });
   });
@@ -45,7 +55,19 @@ describe('user', () => {
         })
         .set('Accept', 'application/json');
 
-    it('/users/signup returns 400 w/ bad pw', async () => {
+    it('/users/signin returns 400 w/ invalid user', async () => {
+      await request(app)
+        .post('/api/v1/users/signin')
+        .send({
+          user_name: 'totally_not_a_user_name',
+          password: 'NOPE',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400);
+    });
+
+    it('/users/signin returns 400 w/ bad pw', async () => {
       await request(app)
         .post('/api/v1/users/signin')
         .send({
@@ -72,7 +94,7 @@ describe('user', () => {
       expect(res.statusCode).toBe(200);
 
       const { user, token } = res.body;
-      expect(user).toContainKeys(['id', 'user_name', 'email']);
+      expect(user).toContainKeys(VALID_USER_RESPONSE_FIELDS);
       expect(user).not.toContainKeys(['password', 'password_hash']);
       expect(token).toBeString();
     });
@@ -83,7 +105,7 @@ describe('user', () => {
         .get('/api/v1/users/current')
         .set('Authorization', 'Bearer ' + token)
         .expect(200);
-      expect(res?.body).toContainKeys(['id', 'user_name', 'email']);
+      expect(res?.body).toContainKeys(VALID_USER_RESPONSE_FIELDS);
       expect(res?.body).not.toContainKeys(['password', 'password_hash']);
       expect(res.body.id).toEqual(user.id);
       expect(res.body.email).toEqual(user.email);
