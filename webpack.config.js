@@ -43,6 +43,7 @@ module.exports = {
     open: true,
     historyApiFallback: true,
     proxy: {
+      '/auth': 'http://localhost:8080', // used for OAuth redirects
       '/api': 'http://localhost:8080',
     },
   },

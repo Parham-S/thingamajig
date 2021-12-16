@@ -16,12 +16,9 @@ const Login = () => {
   const githubLogin = (e) => {
     e.preventDefault();
 
-    // FIXME: you HAVE to call the BACKEND URL explicitly.
-    // why isn't it working from proxy? literally no idea.
-    window.location = `http://localhost:8080/auth/github/?from=${from}`;
-    // navigate(`http://localhost:8080/auth/github/?from=${from}`, {
-    //   replace: true,
-    // });
+    // NOTE: you HAVE to call the BACKEND URL explicitly
+    // because navigate will only check the possible routes
+    window.location = `http://localhost:3000/auth/github/?from=${from}`;
   };
 
   const handleChange = (e) => {
