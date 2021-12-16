@@ -19,21 +19,23 @@ const App = () => (
     <UserProvider>
       <Router>
         <Nav />
-        <Routes>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/redirect" element={<TokenConfirm />} />
-          <Route
-            path="dashboard"
-            element={
-              <RequireAuth redirectTo="/login">
-                <Dashboard />
-              </RequireAuth>
-            }
-          />
-          <Route path="/" exact element={<Home />} />
-        </Routes>
+        <main className="container">
+          <Routes>
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/redirect" element={<TokenConfirm />} />
+            <Route
+              path="dashboard"
+              element={
+                <RequireAuth redirectTo="/login">
+                  <Dashboard />
+                </RequireAuth>
+              }
+            />
+            <Route path="/" exact element={<Home />} />
+          </Routes>
+        </main>
       </Router>
     </UserProvider>
   </div>

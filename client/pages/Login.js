@@ -41,29 +41,35 @@ const Login = () => {
     }
   };
   return (
-    <main>
+    <article>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="text"
-          name="user_name"
-          label="User name"
-          onChange={handleChange}
-        />
-        <Input
-          type="password"
-          name="password"
-          label="Password"
-          onChange={handleChange}
-        />
-        <button type="submit">Login</button>
-        <button onClick={githubLogin}>Or login with GitHub</button>
+      <form onSubmit={handleSubmit} className="grid">
+        <div>
+          <Input
+            type="text"
+            name="user_name"
+            label="User name"
+            onChange={handleChange}
+          />
+          <Input
+            type="password"
+            name="password"
+            label="Password"
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <button type="submit">Login</button>
+          <button className="secondary" onClick={githubLogin}>
+            Or login with GitHub
+          </button>
+          {isError && <div className="err">ERROR!</div>}
+          <p>
+            Need an account? <Link to="/signup">Sign up</Link>
+          </p>
+        </div>
       </form>
-      {isError && <div className="err">ERROR!</div>}
-      <p>
-        Need an account? <Link to="/signup">Sign up</Link>
-      </p>
-    </main>
+    </article>
   );
 };
 
