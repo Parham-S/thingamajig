@@ -1,10 +1,13 @@
 // ./server/config/passport.js
 
 // instantiate Passport and Github Strategy
-const passport = require('passport');
-const GitHubStrategy = require('passport-github').Strategy;
-const axios = require('axios');
-const Provider = require('../models/provider');
+
+import passport from 'passport'
+import axios from 'axios';
+import Provider from '../models/provider'
+import passportGithub from 'passport-github';
+
+const GitHubStrategy = passportGithub.Strategy;
 
 const GitHubConfig = {
   clientID: process.env.GITHUB_CLIENT_ID,
@@ -61,4 +64,4 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-module.exports = passport;
+export default passport;

@@ -5,7 +5,8 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const morgan = require('morgan');
-const passport = require('./config/passport');
+const passport = require('passport');
+const passportConfig = require('./config/passport');
 
 const userRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
@@ -16,12 +17,11 @@ app.use(morgan('dev'));
 
 app.use(passport.initialize());
 
-app.use('/api/v1/users', userRoutes);
-app.use('/auth', authRoutes);
-
-app.use((err, req, res, next) => {
-  handleError(err, res);
+app.get('/health', (req, res) => {
+  res.send('ok');
 });
+app.use('/auth', authRoutes);
+app.use('/api/v1/users', userRoutes);
 
 // Make sure you put this code snippet AFTER you define
 // your routes, but BEFORE you set up app.listen!
@@ -30,11 +30,15 @@ app.use((err, req, res, next) => {
 // match one above, send back React's index.html file.
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('../dist'));
+  app.use(express.static('dist'));
   app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
   });
 }
+
+app.use((err, req, res, next) => {
+  handleError(err, res);
+});
 
 module.exports = app;
 

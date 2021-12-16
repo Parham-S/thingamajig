@@ -1,8 +1,9 @@
-const db = require('../db/connection');
-const BaseModel = require('./base');
-const User = require('./user');
-const Profile = require('./profile');
-const { parseName } = require('../helpers/index');
+
+import db from '../db/connection';
+import BaseModel from './base';
+import User from './user';
+import Profile from './profile';
+import {parseName} from '../helpers/index';
 
 const base = BaseModel({
   db,
@@ -12,7 +13,7 @@ const base = BaseModel({
 
 // overwriting to include the users table
 const findOne = (filters) =>
-  db('provider_accounts as pa')
+db('provider_accounts as pa')
     .join('users as u', 'u.id', 'pa.user_id')
     .select('u.id', 'user_name', 'email')
     .where(filters)
@@ -56,4 +57,4 @@ const findOrCreateByEmail = async (providerProfile) => {
   return newUser;
 };
 
-module.exports = { ...base, findOrCreateByEmail };
+export default { ...base, findOrCreateByEmail };
