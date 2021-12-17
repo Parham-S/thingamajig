@@ -14,8 +14,8 @@
     "dev:client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "dev:server": "nodemon ./server/built/index.js",
     "dev": "concurrently --kill-others-on-fail \"npm run build:ts\" \"npm run dev:server\" \"npm run dev:client\"",
-    "test": "jest ./server/src/__tests__/test.js",
-    "test:watch": "jest --watch --notify --notifyMode=change ./server/src/__tests__/test.js"
+    "test": "jest ./server/src/__tests__",
+    "test:watch": "jest --watch --notify --notifyMode=change ./server/src/__tests__/"
   },
   "proxy": "http://localhost:8080",
   "dependencies": {
@@ -43,7 +43,12 @@
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^27.0.3",
+    "@types/morgan": "^1.9.3",
     "@types/node": "^17.0.0",
+    "@types/passport-github": "^1.1.6",
+    "@types/supertest": "^2.0.11",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
     "clean-webpack-plugin": "^4.0.0",

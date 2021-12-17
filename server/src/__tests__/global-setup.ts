@@ -1,10 +1,10 @@
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
-const Knex = require('knex');
-const path = require('path');
+import  { knex as knexFn } from 'knex';
+import path from 'path';
 
 // create the DB
 async function createTestDatabase() {
-  const knex = Knex({
+  const knex = knexFn({
     client: 'mysql',
     connection: {
       /* connection info without database */
@@ -26,7 +26,7 @@ async function createTestDatabase() {
 
 // Seed the database with schema and data
 async function seedTestDatabase() {
-  const knex = Knex({
+  const knex = knexFn({
     client: 'mysql',
     connection: {
       /* connection info WITH database */
@@ -53,7 +53,7 @@ async function seedTestDatabase() {
   }
 }
 
-module.exports = async () => {
+export default async () => {
   try {
     await createTestDatabase();
     await seedTestDatabase();

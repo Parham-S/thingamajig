@@ -1,6 +1,6 @@
-// ./server/helpers/index.js
+// ./server/helpers/index.ts
 
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 /**
  * filter method but for keys and objects
@@ -19,15 +19,19 @@ const filterObj = (obj, predicate) => {
   return result;
 };
 
+type ParseNameFunction = {
+  name: string,
+  lastName: string,
+  secondLastName: string
+}
+
 /**
  * Take a full name and parse into properties
- * @param {string} input - full name
- * @returns {object} result
  * @see https://stackoverflow.com/a/40141884
  */
-const parseName = (input) => {
+function parseName(input: string): ParseNameFunction {
   const fullName = input || '';
-  const result = {};
+  const result = {} as any;
 
   if (fullName.length > 0) {
     const nameTokens =
@@ -69,4 +73,4 @@ const getPayloadObjFromUser = (user) => {
 const signToken = (obj) =>
   jwt.sign(obj, process.env.JWT_SECRET, { expiresIn: '24h' });
 
-module.exports = { filterObj, parseName, getPayloadObjFromUser, signToken };
+export { filterObj, parseName, getPayloadObjFromUser, signToken };

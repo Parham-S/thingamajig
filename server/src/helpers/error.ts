@@ -1,4 +1,4 @@
-// ./server/helpers/error.js
+// ./server/helpers/error.ts
 
 export class ErrorHandler extends Error {
   statusCode: number;

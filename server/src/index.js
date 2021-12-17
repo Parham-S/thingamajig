@@ -6,7 +6,7 @@ const app = express();
 const path = require('path');
 const morgan = require('morgan');
 const passport = require('passport');
-const passportConfig = require('./config/passport');
+require('./config/passport');
 
 const userRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
