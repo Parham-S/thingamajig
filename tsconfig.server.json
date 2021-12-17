@@ -11,6 +11,6 @@
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
   "compileOnSave": true,
-  "exclude": ["node_modules", "jest.config.js"],
+  "exclude": ["node_modules"],
   "include": ["./server/src/**.*"]
 }

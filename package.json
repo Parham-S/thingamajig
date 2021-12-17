@@ -14,8 +14,8 @@
     "dev:client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "dev:server": "nodemon ./server/built/index.js",
     "dev": "concurrently --kill-others-on-fail \"npm run build:ts\" \"npm run dev:server\" \"npm run dev:client\"",
-    "test": "jest ./server/__tests__/test.js",
-    "test:watch": "jest --watch --notify --notifyMode=change ./server/__tests__/test.js"
+    "test": "jest ./server/src/__tests__/test.js",
+    "test:watch": "jest --watch --notify --notifyMode=change ./server/src/__tests__/test.js"
   },
   "proxy": "http://localhost:8080",
   "dependencies": {
@@ -58,6 +58,7 @@
     "react-refresh": "^0.11.0",
     "style-loader": "^3.3.1",
     "supertest": "^6.1.6",
+    "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4",
     "webpack": "^5.64.4",
