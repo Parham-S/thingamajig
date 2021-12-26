@@ -187,10 +187,10 @@ $ docker-compose exec web yarn db:migrate
 # Log into docker database,
 
 # user: user
-$ docker exec -it sample-fullstack-hooks-asyncawait_db_1 mysql -h db -u user -p
+$ docker exec -it sample-fullstack-hooks-asyncawait_mysql-docker_1 mysql -h mysql-docker -u user -p
 
 # user: root; pw is password
-$ docker exec -it sample-fullstack-hooks-asyncawait_db_1 mysql -h db -u root -p
+$ docker exec -it sample-fullstack-hooks-asyncawait_mysql-docker_1 mysql -h mysql-docker -u root -p
 ```
 
 ```
