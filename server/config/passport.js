@@ -7,8 +7,8 @@ const axios = require('axios');
 const Provider = require('../models/provider');
 
 const GitHubConfig = {
-  clientID: process.env.GITHUB_CLIENT_ID,
-  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  clientID: process.env.GITHUB_CLIENT_ID || 'ERR',
+  clientSecret: process.env.GITHUB_CLIENT_SECRET || 'ERR',
   callbackURL: '/auth/github/callback',
 };
 

@@ -1,12 +1,6 @@
 import axios from 'axios';
 
-/**
- *
- */
 class AuthService {
-  /**
-   *
-   */
   async login(formData) {
     const res = await axios.post('/api/v1/users/signin', formData);
     sessionStorage.setItem('token', res.data.token);

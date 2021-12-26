@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
+import { useMutation, useQueryClient } from 'react-query';
 import authService from '../services/authService';
-import { useAuth } from '../hooks/useAuth';
 import Input from '../components/Input';
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [formData, setFormData] = useState(null);
-  const [isError, setError] = useState(false);
-  const { setCurrentUser } = useAuth();
 
+  const queryClient = useQueryClient();
   const from = location.state?.from?.pathname || '/';
   const githubLogin = (e) => {
     e.preventDefault();
@@ -25,44 +24,50 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const loginUser = useMutation((form) => authService.login(form), {
+    onSuccess: (user) => {
+      queryClient.setQueryData('CURRENT_USER', user.user);
+      navigate(from, { replace: true });
+    },
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const { user } = await authService.login(formData);
-      setCurrentUser(user);
-      navigate(from, { replace: true });
-    } catch (err) {
-      console.log(err);
-      setError(err.response.data);
-      e.target.reset();
-    }
+    loginUser.mutate(formData, {
+      onError: (_error, _variables, _context) => {
+        e.target.reset();
+      },
+    });
   };
+
   return (
     <article>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit} className="grid">
+      <form onSubmit={handleSubmit} className='grid'>
         <div>
           <Input
-            type="text"
-            name="user_name"
-            label="User name"
+            type='text'
+            name='user_name'
+            label='User name'
             onChange={handleChange}
           />
           <Input
-            type="password"
-            name="password"
-            label="Password"
+            type='password'
+            name='password'
+            label='Password'
             onChange={handleChange}
           />
         </div>
         <div>
-          <button type="submit">Login</button>
-          <button className="secondary" onClick={githubLogin}>
+          <button type='submit'>Login</button>
+          <button className='secondary' onClick={githubLogin}>
             Or login with GitHub
           </button>
-          {isError && <div className="err">ERROR!</div>}
+          {loginUser.isError && (
+            <div className='err'>ERROR: {loginUser.error.message}</div>
+          )}
           <p>
-            Need an account? <Link to="/signup">Sign up</Link>
+            Need an account? <Link to='/signup'>Sign up</Link>
           </p>
         </div>
       </form>

@@ -3,22 +3,22 @@ import { useLocation } from 'react-router';
 import { Navigate } from 'react-router-dom';
 
 import authService from '../services/authService';
-import { useAuth } from '../hooks/useAuth';
+// import { useAuth } from '../hooks/useAuth';
 
-function useQuery() {
+function useURLQuery() {
   const { search } = useLocation();
   return useMemo(() => new URLSearchParams(search), [search]);
 }
 
 const TokenConfirm = () => {
-  const { setCurrentUser } = useAuth();
-  const query = useQuery();
+  // const { setCurrentUser } = useAuth();
+  const query = useURLQuery();
   useEffect(() => {
     const token = query.get('token');
     authService.setToken(token);
-    setCurrentUser(null);
+    // setCurrentUser(null);
   }, []);
-  return <Navigate to="/" />;
+  return <Navigate to='/' />;
 };
 
 export default TokenConfirm;

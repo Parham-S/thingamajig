@@ -108,3 +108,5 @@ To read
 To investigate
 
 - https://github.com/scopsy/await-to-js
+
+docker-compose exec web yarn db:migrate
