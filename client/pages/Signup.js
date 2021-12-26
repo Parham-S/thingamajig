@@ -1,34 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import useSignUpUser from '../hooks/useSignUpUser';
 
 import Input from '../components/Input';
-import { useAuth } from '../hooks/useAuth';
-import authService from '../services/authService';
 
 const Signup = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState(null);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
-  const { setCurrentUser } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const registerUser = useSignUpUser();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const { user } = await authService.signup(formData);
-      setCurrentUser(user);
-      navigate('/', { replace: true });
-      e.target.reset();
-    } catch (err) {
-      console.log(err);
-      setSuccess(false);
-      setError(err.response.data);
-    }
+    registerUser.mutate(formData, {
+      onError: (_error, _variables, _context) => {
+        // e.target.reset();
+      },
+      onSuccess: () => {
+        navigate('/', { replace: true });
+      },
+    });
   };
 
   return (
@@ -69,8 +65,8 @@ const Signup = () => {
 
         <button>Sign up</button>
 
-        {success && <div>Signed up!</div>}
-        {error && <div>{error}</div>}
+        {registerUser.isSuccess && <div>Signed up!</div>}
+        {registerUser.isError && <div>{registerUser.error.message}</div>}
       </form>
       <p>
         Have an account? <Link to="/login">Log in</Link>

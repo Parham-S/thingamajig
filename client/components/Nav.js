@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import authService from '../services/authService';
+import useCurrentUser from '../hooks/useCurrentUser';
 
 // import { useAuth } from '../hooks/useAuth';
 
@@ -11,13 +10,7 @@ import authService from '../services/authService';
  *  - if the user isn't logged in, give a generic message with instructions.
  */
 const Nav = () => {
-  // const { currentUser } = useAuth();
-  const {
-    isLoading,
-    isError,
-    data: currentUser,
-    error,
-  } = useQuery('CURRENT_USER', authService.getCurrentUser);
+  const { isLoading, isError, data: currentUser, error } = useCurrentUser();
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -28,12 +21,12 @@ const Nav = () => {
   }
 
   return (
-    <header className='container'>
+    <header className="container">
       <nav>
         <ul>
           <li>
             <strong>
-              <Link to='/'>Demo App</Link>
+              <Link to="/">Demo App</Link>
             </strong>
           </li>
         </ul>
@@ -42,19 +35,19 @@ const Nav = () => {
           <ul>
             <li>Welcome, {currentUser.first_name || currentUser.user_name}!</li>
             <li>
-              <Link to='dashboard'>Dashboard</Link>
+              <Link to="dashboard">Dashboard</Link>
             </li>
             <li>
-              <Link to='/logout'>Logout</Link>
+              <Link to="/logout">Logout</Link>
             </li>
           </ul>
         ) : (
           <ul>
             <li>
-              <Link to='dashboard'>Dashboard (login required)</Link>
+              <Link to="dashboard">Dashboard (login required)</Link>
             </li>
             <li>
-              <Link to='login'>Login</Link>
+              <Link to="login">Login</Link>
             </li>
           </ul>
         )}
