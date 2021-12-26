@@ -108,3 +108,47 @@ To read
 To investigate
 
 - https://github.com/scopsy/await-to-js
+- https://www.shanestillwell.com/2018/06/29/setting-up-knex-project/
+- https://mherman.org/blog/developing-microservices-node-react-docker/
+- https://jdlm.info/articles/2019/10/19/testing-node-docker-compose-backend.html
+
+Docker links
+
+- https://towardsdatascience.com/deploying-a-react-nodejs-application-with-docker-part-i-of-ii-910bc6edb46e
+- https://github.com/thomasboel/Docker-Setup-react-express-mysql
+- https://github.com/dylane1999/SentimentAnalysisApp
+- https://github.com/BretFisher/node-docker-good-defaults
+- https://nickjanetakis.com/blog/best-practices-around-production-ready-web-apps-with-docker-compose
+  - https://github.com/nickjj/docker-node-example/blob/main/Dockerfile
+
+```bash
+# Build docker containers locally
+$ docker-compose up -d --build
+
+# Run migrations and seed
+$ docker exec fullstack-app yarn db:migrate
+
+# or...
+$ docker-compose exec web yarn db:migrate
+```
+
+- CLI into the fullstack-js container (via the Docker Desktop or otherwise) and run `yarn db:migrate`
+  - Use the `env` command inside the shell to see environment variables.
+
+```bash
+# Log into docker database,
+
+# user: user
+$ docker exec -it sample-fullstack-hooks-asyncawait_mysql-docker_1 mysql -h mysql-docker -u user -p
+
+# user: root; pw is password
+$ docker exec -it sample-fullstack-hooks-asyncawait_mysql-docker_1 mysql -h mysql-docker -u root -p
+```
+
+```
+docker system prune -a
+docker volume prune
+```
+
+Note to self for creating new migration files:
+`knex migrate:make provider_accounts --knexfile db/knexfile.js`

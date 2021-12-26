@@ -33,7 +33,7 @@ const App = () => (
                 </RequireAuth>
               }
             />
-            <Route path="/" exact element={<Home />} />
+            <Route path="/" element={<Home />} />
           </Routes>
         </main>
       </Router>
