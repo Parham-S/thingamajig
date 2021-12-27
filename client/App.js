@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import { UserProvider } from './contexts/UserContext';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import Nav from './components/Nav';
 import RequireAuth from './components/RequireAuth';
@@ -14,9 +14,11 @@ import Signup from './pages/Signup';
 import Home from './pages/Home';
 import './app.css';
 
+const queryClient = new QueryClient();
+
 const App = () => (
   <div>
-    <UserProvider>
+    <QueryClientProvider client={queryClient}>
       <Router>
         <Nav />
         <main className="container">
@@ -33,11 +35,12 @@ const App = () => (
                 </RequireAuth>
               }
             />
-            <Route path="/" exact element={<Home />} />
+            <Route path="/" element={<Home />} />
           </Routes>
         </main>
       </Router>
-    </UserProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </div>
 );
 

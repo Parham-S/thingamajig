@@ -10,6 +10,7 @@
 **/.vscode
 **/*.*proj.user
 **/*.dbmdl
+**/*.http
 **/*.jfm
 **/charts
 **/docker-compose*

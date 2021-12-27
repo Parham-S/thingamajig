@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import useCurrentUser from '../hooks/useCurrentUser';
 
 /**
  * The navbar gets should display, no matter if the user is logged in or out.
@@ -8,7 +8,15 @@ import { useAuth } from '../hooks/useAuth';
  *  - if the user isn't logged in, give a generic message with instructions.
  */
 const Nav = () => {
-  const { currentUser } = useAuth();
+  const { isLoading, isError, data: currentUser, error } = useCurrentUser();
+
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
 
   return (
     <header className="container">

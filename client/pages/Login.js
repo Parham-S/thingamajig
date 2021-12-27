@@ -1,42 +1,40 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
-import authService from '../services/authService';
-import { useAuth } from '../hooks/useAuth';
+import useSignInUser from '../hooks/useSignInUser';
 import Input from '../components/Input';
 
 const Login = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [formData, setFormData] = useState(null);
-  const [isError, setError] = useState(false);
-  const { setCurrentUser } = useAuth();
-
+  const location = useLocation();
   const from = location.state?.from?.pathname || '/';
+
   const githubLogin = (e) => {
     e.preventDefault();
 
     // NOTE: you HAVE to call the BACKEND URL explicitly
     // because navigate will only check the possible routes
-    window.location = `http://localhost:3000/auth/github/?from=${from}`;
+    window.location.href = `http://localhost:3000/auth/github/?from=${from}`;
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const loginUser = useSignInUser();
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const { user } = await authService.login(formData);
-      setCurrentUser(user);
-      navigate(from, { replace: true });
-    } catch (err) {
-      console.log(err);
-      setError(err.response.data);
-      e.target.reset();
-    }
+    loginUser.mutate(formData, {
+      onSuccess: () => {
+        navigate(from, { replace: true });
+      },
+      onError: (_error, _variables, _context) => {
+        e.target.reset();
+      },
+    });
   };
+
   return (
     <article>
       <h1>Login</h1>
@@ -60,7 +58,9 @@ const Login = () => {
           <button className="secondary" onClick={githubLogin}>
             Or login with GitHub
           </button>
-          {isError && <div className="err">ERROR!</div>}
+          {loginUser.isError && (
+            <div className="err">ERROR: {loginUser.error.message}</div>
+          )}
           <p>
             Need an account? <Link to="/signup">Sign up</Link>
           </p>

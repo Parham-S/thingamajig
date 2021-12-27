@@ -10,8 +10,8 @@ import passportGithub from 'passport-github';
 const GitHubStrategy = passportGithub.Strategy;
 
 const GitHubConfig = {
-  clientID: process.env.GITHUB_CLIENT_ID,
-  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  clientID: process.env.GITHUB_CLIENT_ID || 'ERR',
+  clientSecret: process.env.GITHUB_CLIENT_SECRET || 'ERR',
   callbackURL: '/auth/github/callback',
 };
 

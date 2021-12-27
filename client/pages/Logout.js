@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
-
-import { useAuth } from '../hooks/useAuth';
+import { useQueryClient } from 'react-query';
 import authService from '../services/authService';
 
 const Logout = () => {
-  const { setCurrentUser } = useAuth();
-  useEffect(() => {
-    authService.logout();
-    setCurrentUser(null);
-  }, []);
-  return <Navigate to="/" />;
+  const queryClient = useQueryClient();
+  authService.logout();
+  // should it be invalidateQueries instead? idk
+  queryClient.resetQueries('CURRENT_USER', {
+    refetchActive: false,
+  });
+  return <Navigate to='/' />;
 };
 
 export default Logout;

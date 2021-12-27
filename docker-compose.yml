@@ -24,8 +24,8 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: ${DB_USER}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PW}
       MYSQL_ROOT_PASSWORD: ${DB_PW}
     ports: 
       # <Port exposed> : < MySQL Port running inside container>
