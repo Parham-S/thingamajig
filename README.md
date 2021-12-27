@@ -184,18 +184,13 @@ $ docker-compose exec web yarn db:migrate
   - Use the `env` command inside the shell to see environment variables.
 
 ```bash
-# Log into docker database,
-
-# user: user
+# Log into docker database:
 $ docker exec -it sample-fullstack-hooks-asyncawait_mysql-docker_1 mysql -h mysql-docker -u user -p
-
-# user: root; pw is password
-$ docker exec -it sample-fullstack-hooks-asyncawait_mysql-docker_1 mysql -h mysql-docker -u root -p
 ```
 
-```
-docker system prune -a
-docker volume prune
+```bash
+$ docker system prune -a
+$ docker volume prune
 ```
 
 Note to self for creating new migration files:
