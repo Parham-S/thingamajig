@@ -1,5 +1,5 @@
-const db = require('../db/connection');
-const BaseModel = require('./base');
+import db from "../db/connection";
+import BaseModel from "./base";
 
 const base = BaseModel({
   db,
@@ -7,4 +7,4 @@ const base = BaseModel({
   FIELD_WHITELIST: ['user_id', 'first_name', 'last_name', 'avatar'],
 });
 
-module.exports = { ...base };
+export = { ...base };

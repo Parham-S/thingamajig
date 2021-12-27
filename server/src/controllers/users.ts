@@ -1,8 +1,14 @@
-const bcrypt = require('bcryptjs');
-const User = require('../models/user');
-const Profile = require('../models/profile');
-const { signToken, getPayloadObjFromUser } = require('../helpers/index');
-const { ErrorHandler } = require('../helpers/error');
+import bcrypt from "bcryptjs";
+import User from "../models/user";
+import Profile from '../models/profile';
+import { signToken, getPayloadObjFromUser } from '../helpers/index';
+import { ErrorHandler } from '../helpers/error';
+
+// const bcrypt = require('bcryptjs');
+// const User = require('../models/user');
+// const Profile = require('../models/profile');
+// const { signToken, getPayloadObjFromUser } = require('../helpers/index');
+// const { ErrorHandler } = require('../helpers/error');
 
 function mergedUserWithProfile(user, profile) {
   delete profile.id;
@@ -69,4 +75,4 @@ async function getCurrentUser(req, res, next) {
   }
 }
 
-module.exports = { signUpUser, signInUser, getCurrentUser };
+export { signUpUser, signInUser, getCurrentUser };

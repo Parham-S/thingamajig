@@ -1,12 +1,21 @@
 process.env.NODE_ENV = 'test';
-const request = require('supertest');
-const db = require('./../db/connection');
-const app = require('../index');
+import request from 'supertest';
+import db from '../db/connection';
+// import * as app from '../index';
+// import matchers from 'jest-extended';
+
+// const request = require('supertest');
+// const db = require('./../db/connection');
+// const app = require('../index');
 const matchers = require('jest-extended');
 
 describe('user', () => {
-  beforeAll(() => {
+  let app;
+
+  beforeAll(async () => {
     expect.extend(matchers);
+    const mod = await import ('../index');
+    app = (mod as any).default; 
   });
 
   afterAll(() => {

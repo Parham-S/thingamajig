@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn clean && cross-env NODE_ENV=production yarn build:client && cross-env NODE_ENV=production node ./server/index.js",
-    "build:ts": "npx tsc -p tsconfig.server.json --watch",
+    "build:ts": "yarn tsc -p tsconfig.server.json --watch",
     "build:client": "webpack --mode production",
     "clean": "rm -rf ./dist && mkdir dist",
     "db:migrate": "yarn knex migrate:latest --knexfile server/db/knexfile.js",
@@ -13,7 +13,7 @@
     "db:setup": "yarn db:rollback && yarn db:migrate",
     "dev:client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "dev:server": "nodemon ./server/built/index.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run build:ts\" \"npm run dev:server\" \"npm run dev:client\"",
+    "dev": "concurrently --kill-others-on-fail \"yarn run build:ts\" \"yarn run dev:server\" \"yarn run dev:client\"",
     "test": "jest ./server/src/__tests__",
     "test:watch": "jest --watch --notify --notifyMode=change ./server/src/__tests__/"
   },

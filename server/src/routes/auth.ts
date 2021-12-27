@@ -1,9 +1,10 @@
 // ./server/routes/auth.js
 
-const { signToken, getPayloadObjFromUser } = require('../helpers/index');
+import { signToken, getPayloadObjFromUser } from '../helpers/index';
+import express from 'express';
+const router = express.Router();
+import passport from 'passport';
 
-const router = require('express').Router();
-const passport = require('passport');
 const { ErrorHandler } = require('../helpers/error');
 // FIXME
 const CLIENT_URL = 'http://localhost:3000';
@@ -42,4 +43,4 @@ router.get(
   successfulCallback
 );
 
-module.exports = router;
+export default router;

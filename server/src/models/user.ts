@@ -1,7 +1,9 @@
-const db = require('../db/connection');
-const BaseModel = require('./base');
-const bcrypt = require('bcryptjs');
-const { ErrorHandler } = require('../helpers/error');
+// ./server/src/models/user.ts
+
+import db from "../db/connection";
+import BaseModel from "./base";
+import bcrypt from "bcryptjs";
+import { ErrorHandler } from "../helpers/error";
 
 const base = BaseModel({
   db,
@@ -37,7 +39,7 @@ const hasRows = async (filters) => {
   return rowCount['count(*)'] > 0;
 };
 
-module.exports = {
+export = {
   ...base,
   create,
   hasRows,

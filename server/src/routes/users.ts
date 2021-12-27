@@ -1,13 +1,11 @@
 // ./server/routes/users.js
 
-const router = require('express').Router();
-const { signUpSchema, signInSchema } = require('../middleware/schemas');
-const auth = require('../middleware/auth');
-const {
-  signInUser,
-  signUpUser,
-  getCurrentUser,
-} = require('../controllers/users');
+import express from 'express';
+const router = express.Router();
+
+import  { signUpSchema, signInSchema } from '../middleware/schemas';
+import auth from '../middleware/auth';
+import { signInUser, signUpUser, getCurrentUser } from '../controllers/users';
 
 // POST /api/v1/users/signup
 router.post('/signup', signUpSchema, signUpUser);
@@ -21,4 +19,4 @@ router.post('/signin', signInSchema, signInUser);
  */
 router.get('/current', auth, getCurrentUser);
 
-module.exports = router;
+export default router;

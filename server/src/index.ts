@@ -1,16 +1,18 @@
 // ./server/index.js
-
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
-const express = require('express');
-const app = express();
-const path = require('path');
-const morgan = require('morgan');
-const passport = require('passport');
-require('./config/passport');
 
-const userRoutes = require('./routes/users');
-const authRoutes = require('./routes/auth');
-const { handleError } = require('./helpers/error');
+import express from 'express';
+const app = express();
+
+import path from 'path';
+import morgan from 'morgan';
+import passport from 'passport';
+
+import './config/passport';
+
+import userRoutes from './routes/users';
+import authRoutes from './routes/auth';
+import { handleError } from './helpers/error';
 
 app.use(express.json());
 app.use(morgan('dev'));
@@ -40,7 +42,7 @@ app.use((err, req, res, next) => {
   handleError(err, res);
 });
 
-module.exports = app;
+export default app;
 
 if (require.main === module) {
   // Start server only when we run this on the command

@@ -1,5 +1,7 @@
-const { v4: uuidv4 } = require('uuid');
-const { filterObj } = require('../helpers');
+// @ts-nocheck
+
+import { v4 as uuidv4 } from 'uuid';
+import { filterObj } from '../helpers';
 
 // Hat tip:
 // https://github.com/robmclarty/knex-express-project-sample/blob/main/server/helpers/model-guts.js
@@ -40,4 +42,4 @@ const BaseModel = ({ db, DB_TABLE, FIELD_WHITELIST }) => {
   };
 };
 
-module.exports = BaseModel;
+export = BaseModel;
