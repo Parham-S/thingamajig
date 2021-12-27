@@ -23,11 +23,10 @@ const Login = () => {
   };
 
   const loginUser = useSignInUser();
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     loginUser.mutate(formData, {
       onSuccess: () => {
-        console.log('gets here?');
         navigate(from, { replace: true });
       },
       onError: (_error, _variables, _context) => {

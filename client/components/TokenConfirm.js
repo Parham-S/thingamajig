@@ -3,7 +3,6 @@ import { useLocation } from 'react-router';
 import { Navigate } from 'react-router-dom';
 
 import authService from '../services/authService';
-// import { useAuth } from '../hooks/useAuth';
 
 function useURLQuery() {
   const { search } = useLocation();
@@ -11,14 +10,12 @@ function useURLQuery() {
 }
 
 const TokenConfirm = () => {
-  // const { setCurrentUser } = useAuth();
   const query = useURLQuery();
   useEffect(() => {
     const token = query.get('token');
     authService.setToken(token);
-    // setCurrentUser(null);
   }, []);
-  return <Navigate to='/' />;
+  return <Navigate to="/" />;
 };
 
 export default TokenConfirm;

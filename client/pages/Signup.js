@@ -15,7 +15,7 @@ const Signup = () => {
 
   const registerUser = useSignUpUser();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     registerUser.mutate(formData, {
       onError: (_error, _variables, _context) => {

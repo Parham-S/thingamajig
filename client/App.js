@@ -19,7 +19,6 @@ const queryClient = new QueryClient();
 const App = () => (
   <div>
     <QueryClientProvider client={queryClient}>
-      {/* <UserProvider> */}
       <Router>
         <Nav />
         <main className="container">

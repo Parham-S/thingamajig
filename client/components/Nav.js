@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import useCurrentUser from '../hooks/useCurrentUser';
 
-// import { useAuth } from '../hooks/useAuth';
-
 /**
  * The navbar gets should display, no matter if the user is logged in or out.
  *  - If the user is logged in, show the logged in user's metadata.
