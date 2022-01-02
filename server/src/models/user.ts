@@ -13,18 +13,18 @@ const base = BaseModel({
 
 // always hash the password before saving to DB
 const SALT_ROUNDS = 8;
-const hashedPW = (password) => bcrypt.hash(password, SALT_ROUNDS);
+const hashedPW = (password: string) => bcrypt.hash(password, SALT_ROUNDS);
 
 /**
  * @async
  * @param {*} user
  * @returns
  */
-const beforeSave = (user) => {
+const beforeSave = (user): Promise<Record<string, unknown>> => {
   if (!user.password) return Promise.resolve(user);
   return hashedPW(user.password)
-    .then((hash) => {
-      return { ...user, password_hash: hash };
+    .then((hash: string) => {
+      return Promise.resolve({ ...user, password_hash: hash });
     })
     .catch((err) => {
       throw new ErrorHandler(500, 'Error hashing password');
@@ -34,7 +34,7 @@ const beforeSave = (user) => {
 // overwrite the default's create method to include beforeSave logic
 const create = (props) => beforeSave(props).then((user) => base.create(user));
 
-const hasRows = async (filters) => {
+const hasRows = async (filters: Record<string, unknown>) => {
   const rowCount = await base.findOne(filters).clone().count();
   return rowCount['count(*)'] > 0;
 };

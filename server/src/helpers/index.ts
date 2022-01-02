@@ -9,8 +9,8 @@ import jwt from 'jsonwebtoken';
  * @returns {object} result - e.g. { name: "john" }
  */
 const filterObj = (obj, predicate) => {
-  let result = {},
-    key;
+  const result = {};
+  let key;
   for (key in obj) {
     if (obj.hasOwnProperty(key) && predicate(key, obj[key])) {
       result[key] = obj[key];
@@ -50,7 +50,7 @@ function parseName(input: string): ParseNameFunction {
     }
   }
   return result;
-};
+}
 
 /**
  * Given a user object, return an object that has

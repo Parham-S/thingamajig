@@ -1,3 +1,4 @@
+// ./server/src/models/provider.ts
 
 import db from '../db/connection';
 import BaseModel from './base';

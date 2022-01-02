@@ -15,7 +15,7 @@ const GitHubConfig = {
   callbackURL: '/auth/github/callback',
 };
 
-async function getPrimaryEmailFromAccessToken(accessToken) {
+async function getPrimaryEmailFromAccessToken(accessToken: string) {
   const authHeaders = {
     headers: {
       Authorization: 'token ' + accessToken,
@@ -31,7 +31,12 @@ async function getPrimaryEmailFromAccessToken(accessToken) {
   return primaryEmail.length ? primaryEmail[0].email : false;
 }
 
-async function strategyCallback(accessToken, refreshToken, profile, done) {
+async function strategyCallback(
+  accessToken: string, 
+  refreshToken, 
+  profile, 
+  done
+) {
   try {
     // Problem: GitHub only takes the email from the publicly accessible profile.
     // Many folks leave that blank. What we need is the actual email address the

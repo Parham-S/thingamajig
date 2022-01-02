@@ -3,12 +3,7 @@ import User from "../models/user";
 import Profile from '../models/profile';
 import { signToken, getPayloadObjFromUser } from '../helpers/index';
 import { ErrorHandler } from '../helpers/error';
-
-// const bcrypt = require('bcryptjs');
-// const User = require('../models/user');
-// const Profile = require('../models/profile');
-// const { signToken, getPayloadObjFromUser } = require('../helpers/index');
-// const { ErrorHandler } = require('../helpers/error');
+import { Request, Response, NextFunction } from 'express';
 
 function mergedUserWithProfile(user, profile) {
   delete profile.id;
@@ -17,7 +12,11 @@ function mergedUserWithProfile(user, profile) {
   return { ...user, ...profile };
 }
 
-async function signUpUser(req, res, next) {
+async function signUpUser(
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) {
   try {
     const hasRows = await User.hasRows({ user_name: req.body.user_name });
     if (hasRows) {
@@ -37,7 +36,11 @@ async function signUpUser(req, res, next) {
   }
 }
 
-async function signInUser(req, res, next) {
+async function signInUser(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     // any validation should go here
     const { user_name, password } = req.body;
@@ -58,7 +61,11 @@ async function signInUser(req, res, next) {
   }
 }
 
-async function getCurrentUser(req, res, next) {
+async function getCurrentUser(
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) {
   try {
     // If our code gets here, it went through our middleware
     // first so we should have our email address of the logged

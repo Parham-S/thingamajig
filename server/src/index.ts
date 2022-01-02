@@ -1,7 +1,8 @@
 // ./server/index.js
-if (process.env.NODE_ENV !== 'production') require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 const app = express();
 
 import path from 'path';
@@ -38,7 +39,12 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.use((err, req, res, next) => {
+app.use((
+  err, 
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) => {
   handleError(err, res);
 });
 
