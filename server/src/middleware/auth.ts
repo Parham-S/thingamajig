@@ -1,6 +1,7 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken'
+import { Request, Response, NextFunction } from 'express';
 
-function getTokenFromRequest(req, res, next) {
+function getTokenFromRequest(req: Request, res: Response, next: NextFunction) {
   try {
     let token;
     if (
@@ -26,4 +27,4 @@ function getTokenFromRequest(req, res, next) {
   }
 }
 
-module.exports = getTokenFromRequest;
+export = getTokenFromRequest;

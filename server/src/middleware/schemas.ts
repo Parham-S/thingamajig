@@ -1,7 +1,14 @@
-const Joi = require('joi');
-const { ErrorHandler } = require('../helpers/error');
+// ./server/src/middleware/schemas.js
 
-function signInSchema(req, res, next) {
+import Joi from 'joi';
+import { ErrorHandler } from '../helpers/error';
+import { Request, Response, NextFunction } from 'express';
+
+function signInSchema(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const schema = Joi.object({
     user_name: Joi.string().required(),
     password: Joi.string().required(),
@@ -9,7 +16,11 @@ function signInSchema(req, res, next) {
   validateRequest(req, next, schema);
 }
 
-function signUpSchema(req, res, next) {
+function signUpSchema(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const schema = Joi.object({
     user_name: Joi.string().required(),
     first_name: Joi.string(),
@@ -20,7 +31,11 @@ function signUpSchema(req, res, next) {
   validateRequest(req, next, schema);
 }
 
-function validateRequest(req, next, schema) {
+function validateRequest(
+  req: Request,
+  next: NextFunction,
+  schema
+) {
   const options = {
     abortEarly: false, // include all errors
     allowUnknown: true, // ignore unknown props
@@ -38,4 +53,4 @@ function validateRequest(req, next, schema) {
   }
 }
 
-module.exports = { signInSchema, signUpSchema };
+export { signInSchema, signUpSchema };
